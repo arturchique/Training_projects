@@ -13,6 +13,8 @@ parser.add_argument("--val", help="Enter -key [key] with --val [val] to write")
 args = parser.parse_args()
 
 storage_path = os.path.join(tempfile.gettempdir(), 'storage.data')
+f = open(storage_path, "w")
+f.close()
 
 if args.key and args.val:
     with open(f"{storage_path}") as file:
