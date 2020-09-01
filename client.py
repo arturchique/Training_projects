@@ -17,31 +17,38 @@ class Client:
         while not data.endswith(b"\n\n"):
             try:
                 data += self.sock.recv(1024)
-            except socket.error:
+            except:
                 raise ClientError
 
         decoded_data = data.decode()
-        status, payload = decoded_data.split("\n", 1)
-        if status != "ok":
+        try:
+            status, payload = decoded_data.split("\n", 1)
+            if status != "ok":
+                raise ClientError
+            payload = payload.strip()
+        except:
             raise ClientError
-        payload = payload.strip()
         return payload
 
-    def put(self, key, value, timestamp=int(time.time())):
-        self.sock.sendall(f"put {key} {value} {timestamp}\n".encode("utf8"))
+    def put(self, key, value, timestamp=None):
+        self.sock.sendall(f"put {key} {value} {timestamp or int(time.time())}\n".encode("utf8"))
         self._read()
 
     def get(self, key):
         self.sock.sendall(f"get {key}\n".encode("utf8"))
         response = self._read()
         data = {}
-        if response == "":
-            return data
-        for row in response.split("\n"):
-            key, value, timestamp = row.split()
-            if key not in data:
-                data[key] = []
-            data[key].append((int(timestamp), float(value)))
+        try:
+            if response == "":
+                return data
+            for row in response.split("\n"):
+                key, value, timestamp = row.split()
+                if key not in data:
+                    data[key] = []
+                data[key].append((int(timestamp), float(value)))
+                data[key].sort()
+        except:
+            raise ClientError
         return data
 
 
