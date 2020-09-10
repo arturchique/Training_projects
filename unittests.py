@@ -11,7 +11,7 @@ def factorize(x):
 
 
 class TestFactorize(unittest.TestCase):
-    def wrong_types_raise_exception(self):
+    def test_wrong_types_raise_exception(self):
         for x in "string", 1.5:
             with self.subTest(x=x):
                 self.assertRaises(TypeError, factorize, x)
