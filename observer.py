@@ -1,3 +1,5 @@
+from abc import ABC, abstractmethod
+
 class ObservableEngine(Engine):
     def __init__(self):
         # Объявим пустое множество подписчиков
