@@ -1,7 +1,7 @@
 import pandas as pd
+from numpy.random import exponential
+import matplotlib.pyplot as plt
 
-df = pd.read_csv("201809-citibike-tripdata.csv")
-df = df.groupby(['start station id']).sort_value()
+df = pd.DataFrame({'x': range(20), 'y': exponential(10, 20)})
 
-print(df)
-
+df.y.hist()

@@ -1,7 +1,5 @@
-import numpy as np
-from scipy import linalg
+import requests
 
-m = np.array([[2, 4, 0, 4, 1], [2, 4, 1, 1, 0], [1, 1, 1, 2, 2], [0, 1, 3, 2, 4], [2, 2, 2, 0, 2]])
-m = linalg.inv(m)
-m = m.diagonal()
-print(m.sum())
+a = requests.get('http://157.245.77.126/s2b/api/v1/hello/').json()
+
+print(a)
